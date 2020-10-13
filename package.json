@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "jest": "^26.5.3",
+    "standard": "^14.3.4"
+  },
+  "scripts": {
+    "test": "standard && jest"
+  }
+}
