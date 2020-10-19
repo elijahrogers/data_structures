@@ -5,5 +5,8 @@
   },
   "scripts": {
     "test": "standard && jest"
+  },
+  "standard": {
+    "env": ["jest"]
   }
 }
