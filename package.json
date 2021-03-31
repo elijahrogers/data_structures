@@ -4,7 +4,8 @@
     "standard": "^14.3.4"
   },
   "scripts": {
-    "test": "standard && jest"
+    "test": "standard && jest",
+    "test:debug": "node --inspect node_modules/.bin/jest --watch --runInBand"
   },
   "standard": {
     "env": ["jest"]
