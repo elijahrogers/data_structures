@@ -9,17 +9,30 @@ describe('#initialize', () => {
     })
   })
 
-  describe('with an array of vertices', () => {
+  describe('with an array of contintuous vertices starting at 0', () => {
     test('successfully initializes', () => {
-      const graph = new EdgeWeightedGraph([1, 2, 3])
+      const graph = new EdgeWeightedGraph([0, 1, 2, 3])
 
       expect(graph).not.toBeUndefined()
     })
 
     test('sets the given vertices', () => {
-      const graph = new EdgeWeightedGraph([1, 2, 3])
+      const graph = new EdgeWeightedGraph([0, 1, 2])
 
       expect(graph.vertexCount).toEqual(3)
+    })
+  })
+
+  describe('with an array of non-continous vertices', () => {
+    test('throws an error', () => {
+      expect(() => new EdgeWeightedGraph([0, 1, 3])).toThrow('Invalid vertices')
+    })
+  })
+
+
+  describe('with an array of vertices starting after 0', () => {
+    test('throws an error', () => {
+      expect(() => new EdgeWeightedGraph([1, 2, 3])).toThrow('Invalid vertices')
     })
   })
 })
@@ -35,7 +48,7 @@ describe('#vertexCount', () => {
 
   describe('when graph has vertices', () => {
     test('returns the correct number of vertices', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       expect(graph.vertexCount).toEqual(vertices.length)
@@ -54,7 +67,7 @@ describe('#edgeCount', () => {
 
   describe('when graph has edges', () => {
     test('returns correct amount', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       graph.addEdge(1, 2)
@@ -67,7 +80,7 @@ describe('#edgeCount', () => {
 describe('#addEdge', () => {
   describe('with two valid vertices', () => {
     test('successfully adds an edge', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       graph.addEdge(1, 2, 0.33)
@@ -76,7 +89,7 @@ describe('#addEdge', () => {
     })
 
     test('sets the correct edge weight', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       graph.addEdge(1, 2, 0.33)
@@ -87,13 +100,13 @@ describe('#addEdge', () => {
 
   describe('with two invalid vertices', () => {
     test('returns false', () => {
-      const graph = new EdgeWeightedGraph([1, 2, 3])
+      const graph = new EdgeWeightedGraph([0, 1, 2, 3])
 
       expect(graph.addEdge(4, 5, 0.99)).toBeFalsy()
     })
 
     test('does not add edge', () => {
-      const graph = new EdgeWeightedGraph([1, 2, 3])
+      const graph = new EdgeWeightedGraph([0, 1, 2, 3])
 
       graph.addEdge(4, 5, 0.99)
 
@@ -113,7 +126,7 @@ describe('#vertices', () => {
 
   describe('when graph has vertices', () => {
     test('returns the correct vertices', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       expect(graph.vertices).toEqual(vertices)
@@ -125,7 +138,7 @@ describe('#adj', () => {
   describe('with a valid vertex', () => {
     describe('that has no edges', () => {
       test('returns an empty list', () => {
-        const vertices = [1, 2, 3, 4, 5]
+        const vertices = [0, 1, 2, 3, 4]
         const graph = new EdgeWeightedGraph(vertices)
 
         expect(graph.adj(1)).toEqual([])
@@ -134,7 +147,7 @@ describe('#adj', () => {
 
     describe('that has edges', () => {
       test('returns an array of edges incident to the given vertex', () => {
-        const vertices = [1, 2, 3, 4, 5]
+        const vertices = [0, 1, 2, 3, 4]
         const graph = new EdgeWeightedGraph(vertices)
 
         graph.addEdge(1, 2, 0.33)
@@ -148,7 +161,7 @@ describe('#adj', () => {
 
   describe('with an invalid vertex', () => {
     test('returns null', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new EdgeWeightedGraph(vertices)
 
       expect(graph.adj(6)).toBeNull()

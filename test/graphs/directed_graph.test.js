@@ -9,17 +9,30 @@ describe('#new', () => {
     })
   })
 
-  describe('with an array of vertices', () => {
+  describe('with an array of contintuous vertices starting at 0', () => {
     test('successfully initializes', () => {
-      const graph = new DirectedGraph([1, 2, 3])
+      const graph = new DirectedGraph([0, 1, 2])
 
       expect(graph).not.toBeUndefined()
     })
 
     test('sets the given vertices', () => {
-      const graph = new DirectedGraph([1, 2, 3])
+      const graph = new DirectedGraph([0, 1, 2])
 
       expect(graph.vertices).toEqual(3)
+    })
+  })
+
+  describe('with an array of non-continous vertices', () => {
+    test('throws an error', () => {
+      expect(() => new DirectedGraph([0, 1, 3])).toThrow('Invalid vertices')
+    })
+  })
+
+
+  describe('with an array of vertices starting after 0', () => {
+    test('throws an error', () => {
+      expect(() => new DirectedGraph([1, 2, 3])).toThrow('Invalid vertices')
     })
   })
 })
@@ -35,7 +48,7 @@ describe('#vertices', () => {
 
   describe('when graph has vertices', () => {
     test('returns the correct number of vertices', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       expect(graph.vertices).toEqual(vertices.length)
@@ -54,12 +67,12 @@ describe('#edges', () => {
 
   describe('when graph has edges', () => {
     test('returns correct amount', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
-      graph.addEdge(1, 2)
-      graph.addEdge(1, 5)
-      graph.addEdge(1, 3)
+      graph.addEdge(0, 1)
+      graph.addEdge(0, 4)
+      graph.addEdge(0, 2)
 
       expect(graph.edges).toEqual(3)
     })
@@ -67,7 +80,7 @@ describe('#edges', () => {
 
   describe('when graph has parallel edges', () => {
     test('correctly counts edges', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       graph.addEdge(1, 2)
@@ -79,7 +92,7 @@ describe('#edges', () => {
 
   describe('when graph has self-loops', () => {
     test('correctly counts edges', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       graph.addEdge(1, 1)
@@ -92,7 +105,7 @@ describe('#edges', () => {
 describe('#addEdge', () => {
   describe('with same vertices', () => {
     test('creates a self loop', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       graph.addEdge(1, 1)
@@ -101,7 +114,7 @@ describe('#addEdge', () => {
     })
 
     test('returns true', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       expect(graph.addEdge(1, 1)).toEqual(true)
@@ -110,7 +123,7 @@ describe('#addEdge', () => {
 
   describe('with different vertices', () => {
     test('adds a single directed edge', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       graph.addEdge(1, 2)
@@ -120,7 +133,7 @@ describe('#addEdge', () => {
     })
 
     test('returns true', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       expect(graph.addEdge(1, 2)).toEqual(true)
@@ -129,14 +142,14 @@ describe('#addEdge', () => {
 
   describe('with invalid vertices', () => {
     test('returns false', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       expect(graph.addEdge(99, 1)).toEqual(false)
     })
 
     test('does not add edge', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       graph.addEdge(99, 1)
@@ -149,7 +162,7 @@ describe('#addEdge', () => {
 describe('#adj', () => {
   describe('with an invalid vertex', () => {
     test('returns undefined', () => {
-      const vertices = [1, 2, 3, 4, 5]
+      const vertices = [0, 1, 2, 3, 4]
       const graph = new DirectedGraph(vertices)
 
       expect(graph.adj(99)).toBeUndefined()
@@ -159,22 +172,22 @@ describe('#adj', () => {
   describe('with a valid vertex', () => {
     describe('when vertex has edges', () => {
       test('returns vertices from outgoing edges', () => {
-        const vertices = [1, 2, 3, 4, 5]
+        const vertices = [0, 1, 2, 3, 4]
         const graph = new DirectedGraph(vertices)
 
-        graph.addEdge(1, 2)
-        graph.addEdge(1, 5)
-        graph.addEdge(1, 3)
+        graph.addEdge(0, 2)
+        graph.addEdge(0, 4)
+        graph.addEdge(0, 3)
 
-        expect(graph.adj(1).value).toEqual(2)
-        expect(graph.adj(1).next.value).toEqual(5)
-        expect(graph.adj(1).next.next.value).toEqual(3)
+        expect(graph.adj(0).value).toEqual(2)
+        expect(graph.adj(0).next.value).toEqual(4)
+        expect(graph.adj(0).next.next.value).toEqual(3)
       })
     })
 
     describe('when vertex does not have edges', () => {
       test('returns an empty array', () => {
-        const vertices = [1, 2, 3, 4, 5]
+        const vertices = [0, 1, 2, 3, 4]
         const graph = new DirectedGraph(vertices)
 
         expect(graph.adj(1)).toEqual([])
@@ -197,11 +210,11 @@ describe('#reverse', () => {
       let graph
 
       beforeAll(() => {
-        graph = new DirectedGraph([1, 2, 3, 4])
+        graph = new DirectedGraph([0, 1, 2, 3, 4])
 
-        graph.addEdge(1, 2)
-        graph.addEdge(1, 3)
-        graph.addEdge(1, 4)
+        graph.addEdge(0, 2)
+        graph.addEdge(0, 3)
+        graph.addEdge(0, 4)
       })
 
       test('with the same number of vertices', () => {
@@ -212,9 +225,9 @@ describe('#reverse', () => {
         const reversed = graph.reverse()
 
         expect(reversed.edges).toEqual(3)
-        expect(reversed.adj(2).value).toEqual(1)
-        expect(reversed.adj(3).value).toEqual(1)
-        expect(reversed.adj(4).value).toEqual(1)
+        expect(reversed.adj(2).value).toEqual(0)
+        expect(reversed.adj(3).value).toEqual(0)
+        expect(reversed.adj(4).value).toEqual(0)
       })
     })
   })
