@@ -243,3 +243,145 @@ describe('max', () => {
     })
   })
 })
+
+describe('#inOrder', () => {
+  describe('when tree is empty', () => {
+    test('returns an empty array', () => {
+      const bst = new BinarySearchTree()
+
+      expect(bst.inOrder()).toEqual([])
+    })
+  })
+
+  describe('when tree has nodes', () => {
+    test('returns nodes from smallest to largest', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.inOrder()).toEqual(values.sort((f, s) => { return f - s }))
+    })
+  })
+})
+
+describe('#preOrder', () => {
+  describe('when tree is empty', () => {
+    test('returns an empty array', () => {
+      const bst = new BinarySearchTree()
+
+      expect(bst.preOrder()).toEqual([])
+    })
+  })
+
+  describe('when tree has nodes', () => {
+    test('starts at root', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.preOrder()[0]).toEqual(bst.root.key)
+    })
+
+    test('traverses left subtree first', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.root.left.key).toEqual(4)
+      expect(bst.preOrder()[1]).toEqual(4)
+    })
+
+    test('traverses depth first', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.root.left.left.left.key).toEqual(1)
+      expect(bst.preOrder()[3]).toEqual(1)
+    })
+  })
+})
+
+describe('#postOrder', () => {
+  describe('when tree is empty', () => {
+    test('returns an empty array', () => {
+      const bst = new BinarySearchTree()
+
+      expect(bst.postOrder()).toEqual([])
+    })
+  })
+
+  describe('when tree has nodes', () => {
+    test('starts at deepest node in left subtree', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.postOrder()[0]).toEqual(bst.min().key)
+    })
+
+    test('traverses left subtree first', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.postOrder()[0]).toBeLessThan(bst.root.key)
+    })
+
+    test('ends at root', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.postOrder().slice(-1)[0]).toEqual(bst.root.key)
+    })
+  })
+})
+
+describe('#levelOrder', () => {
+  describe('when tree is empty', () => {
+    test('returns an empty array', () => {
+      const bst = new BinarySearchTree()
+
+      expect(bst.levelOrder()).toEqual([])
+    })
+  })
+
+  describe('when tree has nodes', () => {
+    test('starts at root', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.levelOrder()[0]).toEqual([bst.root.key])
+    })
+
+    test('returns an array for each level', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.levelOrder().length).toEqual(5)
+    })
+
+    test('returns correct nodes for each level', () => {
+      const bst = new BinarySearchTree()
+      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+
+      values.forEach(key => bst.insert(key))
+
+      expect(bst.levelOrder()[0]).toEqual([bst.root.key])
+      expect(bst.levelOrder()[1]).toEqual([4, 11])
+      expect(bst.levelOrder()[2]).toEqual([2, 5, 8, 12])
+    })
+  })
+})

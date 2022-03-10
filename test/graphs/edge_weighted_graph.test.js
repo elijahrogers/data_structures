@@ -29,7 +29,6 @@ describe('#initialize', () => {
     })
   })
 
-
   describe('with an array of vertices starting after 0', () => {
     test('throws an error', () => {
       expect(() => new EdgeWeightedGraph([1, 2, 3])).toThrow('Invalid vertices')
