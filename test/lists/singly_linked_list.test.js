@@ -85,3 +85,33 @@ describe('removeNode', () => {
     })
   })
 })
+
+describe('#search', () => {
+  describe('when the list is empty', () => {
+    test('returns null', () => {
+      const list = new SinglyLinkedList()
+
+      expect(list.search(1)).toBeNull()
+    })
+  })
+
+  describe('when list contains the key', () => {
+    test('returns the correct value', () => {
+      const list = new SinglyLinkedList()
+      const values = new Map([[4, 'd'], [5, 'e'], [6, 'f'], [7, 'g']])
+      values.forEach((value, key) => list.addNode(key, value))
+
+      expect(list.search(5)).toEqual('e')
+    })
+  })
+
+  describe('when list does not contain the key', () => {
+    test('returns null', () => {
+      const list = new SinglyLinkedList()
+      const values = new Map([[4, 'd'], [5, 'e'], [6, 'f'], [7, 'g']])
+      values.forEach((value, key) => list.addNode(key, value))
+
+      expect(list.search(8)).toBeNull()
+    })
+  })
+})
