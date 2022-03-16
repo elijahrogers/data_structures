@@ -57,7 +57,53 @@ describe('search', () => {
     test('it returns null', () => {
       const bst = new BinarySearchTree()
 
+      expect(bst.findNode(1)).toBeNull()
+    })
+  })
+
+  describe('when value is not in tree', () => {
+    test('returns null', () => {
+      const bst = new BinarySearchTree()
+
+      bst.insert(7)
+      bst.insert(5)
+      bst.insert(18)
+
+      expect(bst.findNode(1)).toBeNull()
+    })
+  })
+
+  describe('when value is in tree', () => {
+    test('returns the correct node', () => {
+      const bst = new BinarySearchTree()
+
+      bst.insert(7)
+      bst.insert(5)
+      const node = bst.insert(18)
+
+      expect(bst.findNode(18)).toEqual(node)
+    })
+  })
+})
+
+describe('search', () => {
+  describe('when tree is empty', () => {
+    test('it returns null', () => {
+      const bst = new BinarySearchTree()
+
       expect(bst.search(1)).toBeNull()
+    })
+  })
+
+  describe('when value is in tree', () => {
+    test('returns the value', () => {
+      const bst = new BinarySearchTree()
+
+      bst.insert(7)
+      bst.insert(5)
+      bst.insert(18)
+
+      expect(bst.search(18)).toEqual(18)
     })
   })
 
@@ -70,18 +116,6 @@ describe('search', () => {
       bst.insert(18)
 
       expect(bst.search(1)).toBeNull()
-    })
-  })
-
-  describe('when value is in tree', () => {
-    test('returns the correct node', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(5)
-      const node = bst.insert(18)
-
-      expect(bst.search(18)).toEqual(node)
     })
   })
 })
@@ -117,7 +151,7 @@ describe('delete', () => {
 
       bst.delete('A')
 
-      expect(bst.search('A')).toBeNull()
+      expect(bst.findNode('A')).toBeNull()
     })
 
     test('replaces correct child node', () => {
@@ -143,7 +177,7 @@ describe('delete', () => {
 
       bst.delete('C')
 
-      expect(bst.search('C')).toBeNull()
+      expect(bst.findNode('C')).toBeNull()
       expect(bst.root.right.right).toBeNull()
     })
   })
@@ -159,7 +193,7 @@ describe('delete', () => {
 
       bst.delete('A')
 
-      expect(bst.search('A')).toBeNull()
+      expect(bst.findNode('A')).toBeNull()
       expect(bst.root.left.key).toEqual('B')
     })
   })
@@ -177,7 +211,7 @@ describe('delete', () => {
 
       bst.delete('E')
 
-      expect(bst.search('E')).toBeNull()
+      expect(bst.findNode('E')).toBeNull()
       expect(bst.root.left.key).toEqual('H')
     })
 
