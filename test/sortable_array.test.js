@@ -120,3 +120,47 @@ describe('#mergeSort', () => {
     })
   })
 })
+
+describe('#quickSort', () => {
+  describe('when no array is given', () => {
+    test('returns an empty array', () => {
+      const sortable = new SortableArray()
+
+      expect(sortable.quickSort()).toEqual([])
+    })
+  })
+
+  describe('when array is given', () => {
+    describe('containing multiple data types', () => {
+      test('returns sorted array', () => {
+        const sortable = new SortableArray([3, 'x', 1, 5.3, 4])
+
+        expect(sortable.quickSort()).toEqual([1, 3, 4, 5.3, 'x'])
+      })
+    })
+
+    describe('containing duplicate values', () => {
+      test('returns sorted array', () => {
+        const sortable = new SortableArray([3, 3, 2, 1, 4, 5])
+
+        expect(sortable.quickSort()).toEqual([1, 2, 3, 3, 4, 5])
+      })
+    })
+
+    describe('containing null values', () => {
+      test('returns sorted array with nulls first', () => {
+        const sortable = new SortableArray([null, 3, null, 1, 4, 5])
+
+        expect(sortable.quickSort()).toEqual([null, null, 1, 3, 4, 5])
+      })
+    })
+
+    describe('cointaining one element', () => {
+      test('returns the original array', () => {
+        const sortable = new SortableArray([7])
+
+        expect(sortable.quickSort()).toEqual([7])
+      })
+    })
+  })
+})
