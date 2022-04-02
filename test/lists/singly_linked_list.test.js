@@ -115,3 +115,23 @@ describe('#search', () => {
     })
   })
 })
+
+describe('#toArray', () => {
+  describe('when the list is empty', () => {
+    test('returns an empty array', () => {
+      const list = new SinglyLinkedList()
+
+      expect(list.toArray()).toEqual([])
+    })
+  })
+
+  describe('when list has nodes', () => {
+    test('returns node keys in order', () => {
+      const list = new SinglyLinkedList()
+      const values = new Map([[4, 'd'], [5, 'e'], [6, 'f'], [7, 'g']])
+      values.forEach((value, key) => list.addNode(key, value))
+
+      expect(list.toArray()).toEqual([4, 5, 6, 7])
+    })
+  })
+})

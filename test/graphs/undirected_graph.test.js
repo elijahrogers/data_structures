@@ -109,7 +109,7 @@ describe('#addEdge', () => {
 
       graph.addEdge(1, 1)
 
-      expect(graph.adj(1).value).toEqual(1)
+      expect(graph.adj(1)[0]).toEqual(1)
     })
 
     test('returns true', () => {
@@ -127,8 +127,8 @@ describe('#addEdge', () => {
 
       graph.addEdge(1, 2)
 
-      expect(graph.adj(1).value).toEqual(2)
-      expect(graph.adj(2).value).toEqual(1)
+      expect(graph.adj(1)[0]).toEqual(2)
+      expect(graph.adj(2)[0]).toEqual(1)
     })
 
     test('returns true', () => {
@@ -170,7 +170,7 @@ describe('#adj', () => {
 
   describe('with a valid vertex', () => {
     describe('when vertex has edges', () => {
-      test('returns all adjacent edges', () => {
+      test('returns an array of all adjacent edges', () => {
         const vertices = [0, 1, 2, 3, 4]
         const graph = new UndirectedGraph(vertices)
 
@@ -178,19 +178,45 @@ describe('#adj', () => {
         graph.addEdge(1, 4)
         graph.addEdge(1, 3)
 
-        expect(graph.adj(1).value).toEqual(2)
-        expect(graph.adj(1).next.value).toEqual(4)
-        expect(graph.adj(1).next.next.value).toEqual(3)
+        expect(graph.adj(1)).toEqual([2, 4, 3])
       })
     })
 
     describe('when vertex does not have edges', () => {
-      test('returns an empty array', () => {
+      test('returns an empty arry', () => {
         const vertices = [0, 1, 2, 3, 4]
         const graph = new UndirectedGraph(vertices)
 
         expect(graph.adj(1)).toEqual([])
       })
+    })
+  })
+})
+
+describe('#hasPathTo', () => {
+  describe('when no path to the given vertex exists', () => {
+    test('returns false', () => {
+      const vertices = [0, 1, 2, 3, 4]
+      const graph = new UndirectedGraph(vertices)
+
+      graph.addEdge(1, 2)
+      graph.addEdge(1, 4)
+      graph.addEdge(1, 3)
+
+      expect(graph.hasPathFrom(0).to(2)).toEqual(false)
+    })
+  })
+
+  describe('when a path to the given vertex exists', () => {
+    test('returns true', () => {
+      const vertices = [0, 1, 2, 3, 4]
+      const graph = new UndirectedGraph(vertices)
+
+      graph.addEdge(0, 1)
+      graph.addEdge(1, 2)
+      graph.addEdge(1, 4)
+
+      expect(graph.hasPathFrom(4).to(2)).toEqual(true)
     })
   })
 })
