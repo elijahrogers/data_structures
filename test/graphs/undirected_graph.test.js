@@ -220,3 +220,45 @@ describe('#hasPathTo', () => {
     })
   })
 })
+
+describe('#shortestPathFrom', () => {
+  describe('when source has no adjacent edges', () => {
+    test('returns an empty array', () => {
+      const vertices = [0, 1, 2, 3, 4]
+      const graph = new UndirectedGraph(vertices)
+
+      graph.addEdge(1, 2)
+      graph.addEdge(1, 4)
+      graph.addEdge(1, 3)
+
+      expect(graph.shortestPathFrom(0).to(2)).toEqual([])
+    })
+  })
+
+  describe('when a single path to the given vertex exists', () => {
+    test('returns the path as an array of edges', () => {
+      const vertices = [0, 1, 2, 3, 4]
+      const graph = new UndirectedGraph(vertices)
+
+      graph.addEdge(0, 1)
+      graph.addEdge(1, 2)
+      graph.addEdge(1, 4)
+
+      expect(graph.shortestPathFrom(0).to(2)).toEqual([0, 1, 2])
+    })
+  })
+
+  describe('when multiple paths to the given vertex exist', () => {
+    test('returns the one with the fewest edges', () => {
+      const vertices = [0, 1, 2, 3, 4]
+      const graph = new UndirectedGraph(vertices)
+
+      graph.addEdge(0, 1)
+      graph.addEdge(1, 2)
+      graph.addEdge(1, 4)
+      graph.addEdge(0, 2)
+
+      expect(graph.shortestPathFrom(0).to(2)).toEqual([0, 2])
+    })
+  })
+})
