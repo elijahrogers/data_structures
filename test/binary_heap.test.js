@@ -37,14 +37,28 @@ describe('#push', () => {
 })
 
 describe('#pop', () => {
-  test('returns the max value', () => {
-    const bh = new BinaryHeap()
+  describe('when heap is max based', () => {
+    test('returns the max value', () => {
+      const bh = new BinaryHeap()
 
-    bh.push(1)
-    bh.push(2)
-    bh.push(12)
+      bh.push(1)
+      bh.push(2)
+      bh.push(12)
 
-    expect(bh.pop()).toEqual(12)
+      expect(bh.pop()).toEqual(12)
+    })
+  })
+
+  describe('when heap is min based', () => {
+    test('returns the min value', () => {
+      const bh = new BinaryHeap('min')
+
+      bh.push(1)
+      bh.push(2)
+      bh.push(12)
+
+      expect(bh.pop()).toEqual(1)
+    })
   })
 
   test('decrements the heap size', () => {
