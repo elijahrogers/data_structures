@@ -1,14 +1,14 @@
 const BinaryTree = require('../../lib/trees/binary_tree')
+let binaryTree, values
 
 test('Successfully intitializes', () => {
-  const binaryTree = new BinaryTree()
-  expect(binaryTree).not.toBeUndefined()
+  expect(new BinaryTree()).not.toBeUndefined()
 })
 
 describe('insert', () => {
   describe('when tree is empty', () => {
     test('adds key at root node', () => {
-      const binaryTree = new BinaryTree()
+      binaryTree = new BinaryTree()
       binaryTree.insert(1)
 
       expect(binaryTree.root.key).toEqual(1)
@@ -17,12 +17,9 @@ describe('insert', () => {
 
   describe('when tree has items', () => {
     test('adds key in level order', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
-      binaryTree.insert(4)
+      binaryTree = new BinaryTree()
+      values = [1, 2, 3, 4]
+      values.forEach(key => binaryTree.insert(key))
 
       expect(binaryTree.root.left.key).toEqual(2)
       expect(binaryTree.root.right.key).toEqual(3)
@@ -34,19 +31,15 @@ describe('insert', () => {
 describe('deepest', () => {
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const binaryTree = new BinaryTree()
-
-      expect(binaryTree.deepest()).toBeNull()
+      expect(new BinaryTree().deepest()).toBeNull()
     })
   })
 
   describe('when tree has nodes', () => {
     test('returns the bottom and rightmost node', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
+      binaryTree = new BinaryTree()
+      values = [1, 2, 3]
+      values.forEach(key => binaryTree.insert(key))
 
       expect(binaryTree.deepest()).toEqual(expect.anything())
       expect(binaryTree.deepest().key).toEqual(3)
@@ -55,14 +48,14 @@ describe('deepest', () => {
 })
 
 describe('remove', () => {
+  beforeEach(() => {
+    binaryTree = new BinaryTree()
+    values = [1, 2, 3]
+    values.forEach(key => binaryTree.insert(key))
+  })
+
   describe('when key is valid', () => {
     test('removes key from tree', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
-
       expect(binaryTree.root.left.key).toEqual(2)
 
       binaryTree.remove(2)
@@ -71,12 +64,6 @@ describe('remove', () => {
     })
 
     test('replaces from the bottom', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
-
       expect(binaryTree.root.left.key).toEqual(2)
 
       binaryTree.remove(2)
@@ -87,12 +74,6 @@ describe('remove', () => {
 
   describe('and node is the deepest', () => {
     test('removes key from tree', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
-
       expect(binaryTree.root.right.key).toEqual(3)
 
       binaryTree.remove(3)
@@ -101,11 +82,15 @@ describe('remove', () => {
     })
   })
 
-  describe('when key is not valid', () => {
-    test("returns 'Invalid Key'", () => {
-      const binaryTree = new BinaryTree()
+  describe('when key is invalid', () => {
+    test('returns undefined', () => {
+      expect(binaryTree.remove(7)).toBeUndefined()
+    })
+  })
 
-      expect(binaryTree.remove(3)).toEqual('Invalid key')
+  describe('when tree is empty', () => {
+    test("returns 'Invalid Key'", () => {
+      expect(new BinaryTree().remove(10)).toEqual('Invalid key')
     })
   })
 })
@@ -113,20 +98,15 @@ describe('remove', () => {
 describe('deleteDeepest', () => {
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const binaryTree = new BinaryTree()
-
-      expect(binaryTree.deleteDeepest()).toBeNull()
+      expect(new BinaryTree().deleteDeepest()).toBeNull()
     })
   })
 
   describe('when tree has nodes', () => {
     test('deletes deepest and rightmost node', () => {
-      const binaryTree = new BinaryTree()
-
-      binaryTree.insert(1)
-      binaryTree.insert(2)
-      binaryTree.insert(3)
-
+      binaryTree = new BinaryTree()
+      values = [1, 2, 3]
+      values.forEach(key => binaryTree.insert(key))
       binaryTree.deleteDeepest()
 
       expect(binaryTree.root.right).toBeNull()
@@ -135,35 +115,27 @@ describe('deleteDeepest', () => {
 })
 
 describe('retrieve', () => {
+  beforeAll(() => {
+    binaryTree = new BinaryTree()
+    values = [1, 2, 3]
+    values.forEach(key => binaryTree.insert(key))
+  })
+
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const binaryTree = new BinaryTree()
-
-      expect(binaryTree.retrieve(1)).toBeNull()
+      expect(new BinaryTree().retrieve(1)).toBeNull()
     })
   })
 
   describe('when tree has nodes', () => {
     describe('and key is invalid', () => {
       test("returns 'Invalid key'", () => {
-        const binaryTree = new BinaryTree()
-
-        binaryTree.insert(1)
-        binaryTree.insert(2)
-        binaryTree.insert(3)
-
         expect(binaryTree.retrieve(4)).toEqual('Invalid key')
       })
     })
 
     describe('and key is valid', () => {
       test('returns the correct node', () => {
-        const binaryTree = new BinaryTree()
-
-        binaryTree.insert(1)
-        binaryTree.insert(2)
-        binaryTree.insert(3)
-
         expect(binaryTree.retrieve(3).key).toEqual(3)
       })
     })

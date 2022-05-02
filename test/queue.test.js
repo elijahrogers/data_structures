@@ -1,8 +1,8 @@
 const Queue = require('../lib/queue')
+let queue
 
 test('Successfully intitializes', () => {
-  const queue = new Queue()
-  expect(queue).not.toBeUndefined()
+  expect(new Queue()).not.toBeUndefined()
 })
 
 describe('enqueue', () => {
@@ -24,18 +24,17 @@ describe('dequeue', () => {
   })
 
   describe('when queue has items', () => {
-    test('returns first item from the queue', () => {
-      const queue = new Queue()
+    beforeEach(() => {
+      queue = new Queue()
       queue.enqueue('First')
       queue.enqueue('Second')
+    })
 
+    test('returns first item from the queue', () => {
       expect(queue.dequeue()).toEqual('First')
     })
 
     test('removes first item from the queue', () => {
-      const queue = new Queue()
-      queue.enqueue('First')
-      queue.enqueue('Second')
       queue.dequeue()
 
       expect(queue.front()).toEqual('Second')

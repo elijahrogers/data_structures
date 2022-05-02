@@ -1,43 +1,42 @@
 const { HashTable } = require('../lib/hash_table')
+let ht, values
 
 test('Successfully intitializes', () => {
-  const ht = new HashTable()
-  expect(ht).not.toBeUndefined()
+  expect(new HashTable()).not.toBeUndefined()
 })
 
 describe('#initialize', () => {
   describe('when no size is given', () => {
     test('defaults to 101', () => {
-      const ht = new HashTable()
-      expect(ht.size).toEqual(101)
+      expect(new HashTable().size).toEqual(101)
     })
   })
 
   describe('when a size is given', () => {
     test('uses the given size', () => {
-      const ht = new HashTable(127)
-      expect(ht.size).toEqual(127)
+      expect(new HashTable(127).size).toEqual(127)
     })
   })
 })
 
 describe('#insert', () => {
+  beforeEach(() => {
+    ht = new HashTable()
+    values = new Map([[1, 'a'], [2, 'b'], [3, 'c']])
+  })
+
   describe('when table is empty', () => {
     test('inserts the values', () => {
-      const ht = new HashTable()
-
+      ht = new HashTable()
       ht.insert('key', 'value')
+
       expect(ht.retrieve('key')).toEqual('value')
     })
   })
 
   describe('when table is not empty', () => {
     test('inserts the values', () => {
-      const ht = new HashTable()
-
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
+      values.forEach((value, key) => ht.insert(value, key))
 
       expect(ht.retrieve('c')).toEqual(3)
     })
@@ -45,8 +44,6 @@ describe('#insert', () => {
 
   describe('when there is a collision', () => {
     test('adds the value to the linked list', () => {
-      const ht = new HashTable()
-
       ht.insert('a', 97)
       ht.insert(97, 'a')
 
@@ -56,11 +53,7 @@ describe('#insert', () => {
 
   describe('with integer keys', () => {
     test('correctly hashes and stores values', () => {
-      const ht = new HashTable()
-
-      ht.insert(1, 'a')
-      ht.insert(2, 'b')
-      ht.insert(3, 'c')
+      values.forEach((value, key) => ht.insert(key, value))
 
       expect(ht.retrieve(1)).toEqual('a')
       expect(ht.retrieve(2)).toEqual('b')
@@ -70,11 +63,7 @@ describe('#insert', () => {
 
   describe('with string keys', () => {
     test('correctly hashes and stores values', () => {
-      const ht = new HashTable()
-
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
+      values.forEach((value, key) => ht.insert(value, key))
 
       expect(ht.retrieve('a')).toEqual(1)
       expect(ht.retrieve('b')).toEqual(2)
@@ -84,63 +73,47 @@ describe('#insert', () => {
 })
 
 describe('#retrieve', () => {
+  beforeAll(() => {
+    ht = new HashTable()
+    values = new Map([[1, 'a'], [2, 'b'], [3, 'c']])
+    values.forEach((value, key) => ht.insert(value, key))
+  })
+
   describe('when key is valid', () => {
     test('returns the correct value', () => {
-      const ht = new HashTable()
-
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
-
       expect(ht.retrieve('b')).toEqual(2)
     })
   })
 
   describe('when key is invalid', () => {
     test('returns null', () => {
-      const ht = new HashTable()
-
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
-
       expect(ht.retrieve(10)).toBeNull()
     })
   })
 })
 
 describe('#delete', () => {
+  beforeEach(() => {
+    ht = new HashTable()
+    values = new Map([[1, 'a'], [2, 'b'], [3, 'c']])
+    values.forEach((value, key) => ht.insert(value, key))
+  })
+
   describe('when key is valid', () => {
     test('removes the value', () => {
-      const ht = new HashTable()
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
-
       ht.delete('b')
 
       expect(ht.retrieve('b')).toBeNull()
     })
 
     test('returns true', () => {
-      const ht = new HashTable()
-      ht.insert('a', 1)
-      ht.insert('c', 3)
-
       expect(ht.delete('c')).toBeTruthy()
     })
   })
 
   describe('when key is invalid', () => {
     test('returns null', () => {
-      const ht = new HashTable()
-
-      ht.insert('a', 1)
-      ht.insert('b', 2)
-      ht.insert('c', 3)
-
       expect(ht.delete(10)).toBeNull()
-      expect(ht.retrieve('b')).toEqual(2)
     })
   })
 })

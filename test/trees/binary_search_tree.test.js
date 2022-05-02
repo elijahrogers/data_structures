@@ -1,73 +1,59 @@
 const { BinarySearchTree, TreeNode } = require('../../lib/trees/binary_search_tree')
+let bst, values
 
 test('Successfully intitializes', () => {
-  const bst = new BinarySearchTree()
-  expect(bst).not.toBeUndefined()
+  expect(new BinarySearchTree()).not.toBeUndefined()
 })
 
 describe('insert', () => {
+  beforeEach(() => {
+    bst = new BinarySearchTree()
+  })
+
   describe('when tree is empty', () => {
     test('inserts at root node', () => {
-      const bst = new BinarySearchTree()
-
       bst.insert(0)
 
       expect(bst.root.key).toEqual(0)
     })
 
     test('it returns a node', () => {
-      const bst = new BinarySearchTree()
-
-      const node = bst.insert(77)
-
-      expect(node).toBeInstanceOf(TreeNode)
+      expect(bst.insert(77)).toBeInstanceOf(TreeNode)
     })
   })
 
   describe('when tree has data', () => {
     test('inserts correctly', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(0)
-      bst.insert(1)
-      bst.insert(2)
-      bst.insert(3)
+      values = [0, 1, 2, 3]
+      values.forEach(key => bst.insert(key))
 
       expect(bst.root.right.right.right.key).toEqual(3)
     })
 
     test('it does not create duplicates', () => {
-      const bst = new BinarySearchTree()
+      values = [0, 0, 0, 0]
+      values.forEach(key => bst.insert(key))
 
-      bst.insert(5)
-      bst.insert(6)
-      bst.insert(5)
-
-      expect(bst.root.key).toEqual(5)
-      expect(bst.root.right.key).toEqual(6)
-      expect(bst.root.left).toBeNull()
-      expect(bst.root.right.right).toBeNull()
-      expect(bst.root.right.left).toBeNull()
+      expect(bst.inOrder()).toEqual([0])
     })
   })
 })
 
 describe('search', () => {
+  beforeEach(() => {
+    bst = new BinarySearchTree()
+  })
+
   describe('when tree is empty', () => {
     test('it returns null', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.findNode(1)).toBeNull()
+      expect(new BinarySearchTree().findNode(1)).toBeNull()
     })
   })
 
   describe('when value is not in tree', () => {
     test('returns null', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(5)
-      bst.insert(18)
+      values = [0, 7, 8, 92]
+      values.forEach(key => bst.insert(key))
 
       expect(bst.findNode(1)).toBeNull()
     })
@@ -75,92 +61,66 @@ describe('search', () => {
 
   describe('when value is in tree', () => {
     test('returns the correct node', () => {
-      const bst = new BinarySearchTree()
+      const n = bst.insert(18)
 
-      bst.insert(7)
-      bst.insert(5)
-      const node = bst.insert(18)
-
-      expect(bst.findNode(18)).toEqual(node)
+      expect(bst.findNode(18)).toEqual(n)
     })
   })
 })
 
 describe('search', () => {
+  beforeAll(() => {
+    bst = new BinarySearchTree()
+    values = [7, 5, 18]
+    values.forEach(key => bst.insert(key))
+  })
+
   describe('when tree is empty', () => {
     test('it returns null', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.search(1)).toBeNull()
+      expect(new BinarySearchTree().search(1)).toBeNull()
     })
   })
 
   describe('when value is in tree', () => {
     test('returns the value', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(5)
-      bst.insert(18)
-
       expect(bst.search(18)).toEqual(18)
     })
   })
 
   describe('when value is not in tree', () => {
     test('returns null', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(5)
-      bst.insert(18)
-
       expect(bst.search(1)).toBeNull()
     })
   })
 })
 
 describe('delete', () => {
+  beforeEach(() => {
+    bst = new BinarySearchTree()
+    values = ['A', 'B', 'C']
+    values.forEach(key => bst.insert(key))
+  })
+
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.delete(1)).toBeUndefined()
+      expect(new BinarySearchTree().delete(1)).toBeUndefined()
     })
   })
 
   describe('when value is not in tree', () => {
     test('returns undefined', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('A')
-      bst.insert('B')
-      bst.insert('C')
-
       expect(bst.delete('D')).toBeUndefined()
     })
   })
 
   describe('when value is root node', () => {
     test('removes root node', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('A')
-      bst.insert('B')
-      bst.insert('C')
-
       bst.delete('A')
 
       expect(bst.findNode('A')).toBeNull()
     })
 
     test('replaces correct child node', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('A')
-      bst.insert('B')
-      bst.insert('C')
-
       bst.delete('A')
 
       expect(bst.root.key).toEqual('B')
@@ -169,12 +129,6 @@ describe('delete', () => {
 
   describe('when value has no children', () => {
     test('trims the leaf', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('A')
-      bst.insert('B')
-      bst.insert('C')
-
       bst.delete('C')
 
       expect(bst.findNode('C')).toBeNull()
@@ -183,14 +137,13 @@ describe('delete', () => {
   })
 
   describe('when value has one child', () => {
+    beforeEach(() => {
+      bst = new BinarySearchTree()
+      values = ['D', 'A', 'B', 'C']
+      values.forEach(key => bst.insert(key))
+    })
+
     test('replaces node with child', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('D')
-      bst.insert('A')
-      bst.insert('B')
-      bst.insert('C')
-
       bst.delete('A')
 
       expect(bst.findNode('A')).toBeNull()
@@ -199,16 +152,13 @@ describe('delete', () => {
   })
 
   describe('when value has two children', () => {
+    beforeEach(() => {
+      bst = new BinarySearchTree()
+      values = ['S', 'E', 'R', 'H', 'M', 'A']
+      values.forEach(key => bst.insert(key))
+    })
+
     test('replaces node with successor', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('S')
-      bst.insert('E')
-      bst.insert('R')
-      bst.insert('H')
-      bst.insert('M')
-      bst.insert('A')
-
       bst.delete('E')
 
       expect(bst.findNode('E')).toBeNull()
@@ -216,15 +166,6 @@ describe('delete', () => {
     })
 
     test('sets left node of successor to original', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert('S')
-      bst.insert('E')
-      bst.insert('R')
-      bst.insert('H')
-      bst.insert('M')
-      bst.insert('A')
-
       bst.delete('E')
 
       expect(bst.root.left.left.key).toEqual('A')
@@ -235,20 +176,15 @@ describe('delete', () => {
 describe('min', () => {
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.min()).toBeNull()
+      expect(new BinarySearchTree().min()).toBeNull()
     })
   })
 
   describe('when tree has data', () => {
     test('returns the minimum value', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(4)
-      bst.insert(11)
-      bst.insert(12)
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12]
+      values.forEach(key => bst.insert(key))
 
       expect(bst.min().key).toEqual(4)
     })
@@ -258,20 +194,15 @@ describe('min', () => {
 describe('max', () => {
   describe('when tree is empty', () => {
     test('returns null', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.max()).toBeNull()
+      expect(new BinarySearchTree().max()).toBeNull()
     })
   })
 
   describe('when tree has data', () => {
     test('returns the maximum value', () => {
-      const bst = new BinarySearchTree()
-
-      bst.insert(7)
-      bst.insert(4)
-      bst.insert(11)
-      bst.insert(12)
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12]
+      values.forEach(key => bst.insert(key))
 
       expect(bst.max().key).toEqual(12)
     })
@@ -281,16 +212,14 @@ describe('max', () => {
 describe('#inOrder', () => {
   describe('when tree is empty', () => {
     test('returns an empty array', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.inOrder()).toEqual([])
+      expect(new BinarySearchTree().inOrder()).toEqual([])
     })
   })
 
   describe('when tree has nodes', () => {
     test('returns nodes from smallest to largest', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
 
       values.forEach(key => bst.insert(key))
 
@@ -302,38 +231,27 @@ describe('#inOrder', () => {
 describe('#preOrder', () => {
   describe('when tree is empty', () => {
     test('returns an empty array', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.preOrder()).toEqual([])
+      expect(new BinarySearchTree().preOrder()).toEqual([])
     })
   })
 
   describe('when tree has nodes', () => {
-    test('starts at root', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
+    beforeAll(() => {
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
       values.forEach(key => bst.insert(key))
+    })
 
+    test('starts at root', () => {
       expect(bst.preOrder()[0]).toEqual(bst.root.key)
     })
 
     test('traverses left subtree first', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.root.left.key).toEqual(4)
       expect(bst.preOrder()[1]).toEqual(4)
     })
 
     test('traverses depth first', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.root.left.left.left.key).toEqual(1)
       expect(bst.preOrder()[3]).toEqual(1)
     })
@@ -343,37 +261,27 @@ describe('#preOrder', () => {
 describe('#postOrder', () => {
   describe('when tree is empty', () => {
     test('returns an empty array', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.postOrder()).toEqual([])
+      expect(new BinarySearchTree().postOrder()).toEqual([])
     })
   })
 
   describe('when tree has nodes', () => {
-    test('starts at deepest node in left subtree', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
+    beforeAll(() => {
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
 
       values.forEach(key => bst.insert(key))
+    })
 
+    test('starts at deepest node in left subtree', () => {
       expect(bst.postOrder()[0]).toEqual(bst.min().key)
     })
 
     test('traverses left subtree first', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.postOrder()[0]).toBeLessThan(bst.root.key)
     })
 
     test('ends at root', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.postOrder().slice(-1)[0]).toEqual(bst.root.key)
     })
   })
@@ -382,37 +290,26 @@ describe('#postOrder', () => {
 describe('#levelOrder', () => {
   describe('when tree is empty', () => {
     test('returns an empty array', () => {
-      const bst = new BinarySearchTree()
-
-      expect(bst.levelOrder()).toEqual([])
+      expect(new BinarySearchTree().levelOrder()).toEqual([])
     })
   })
 
   describe('when tree has nodes', () => {
-    test('starts at root', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
+    beforeAll(() => {
+      bst = new BinarySearchTree()
+      values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
       values.forEach(key => bst.insert(key))
+    })
 
+    test('starts at root', () => {
       expect(bst.levelOrder()[0]).toEqual([bst.root.key])
     })
 
     test('returns an array for each level', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.levelOrder().length).toEqual(5)
     })
 
     test('returns correct nodes for each level', () => {
-      const bst = new BinarySearchTree()
-      const values = [7, 4, 11, 12, 2, 1, 3, 5, 6, 8, 9, 10]
-
-      values.forEach(key => bst.insert(key))
-
       expect(bst.levelOrder()[0]).toEqual([bst.root.key])
       expect(bst.levelOrder()[1]).toEqual([4, 11])
       expect(bst.levelOrder()[2]).toEqual([2, 5, 8, 12])

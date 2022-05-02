@@ -1,4 +1,5 @@
 const { BinaryHeap } = require('../lib/binary_heap')
+let bh
 
 test('Successfully intitializes', () => {
   const bh = new BinaryHeap()
@@ -6,17 +7,17 @@ test('Successfully intitializes', () => {
 })
 
 describe('#push', () => {
-  test('adds the value', () => {
-    const bh = new BinaryHeap()
+  beforeEach(() => {
+    bh = new BinaryHeap()
+  })
 
+  test('adds the value', () => {
     bh.push(1)
 
     expect(bh.peek()).toEqual(1)
   })
 
   test('increments the heap size', () => {
-    const bh = new BinaryHeap()
-
     bh.push(1)
 
     expect(bh.size).toEqual(1)
@@ -24,7 +25,6 @@ describe('#push', () => {
 
   describe('with values in increasing order', () => {
     test('correctly arranges heap', () => {
-      const bh = new BinaryHeap()
       const values = [10, 20, 30, 40]
 
       values.forEach((value) => { bh.push(value) })
@@ -51,7 +51,7 @@ describe('#pop', () => {
 
   describe('when heap is min based', () => {
     test('returns the min value', () => {
-      const bh = new BinaryHeap('min')
+      bh = new BinaryHeap('min')
 
       bh.push(1)
       bh.push(2)
@@ -72,7 +72,7 @@ describe('#pop', () => {
 
   describe('when heap is empty', () => {
     test('returns undefined', () => {
-      const bh = new BinaryHeap()
+      bh = new BinaryHeap()
 
       expect(bh.pop()).toBeUndefined()
     })
@@ -80,14 +80,15 @@ describe('#pop', () => {
 })
 
 describe('#delete', () => {
+  beforeEach(() => {
+    bh = new BinaryHeap()
+    bh.push(2)
+    bh.push(4)
+    bh.push(6)
+  })
+
   describe('when key is valid', () => {
     test('removes the key', () => {
-      const bh = new BinaryHeap()
-
-      bh.push(2)
-      bh.push(4)
-      bh.push(6)
-
       bh.delete(1)
 
       for (let i = 0; i < bh.size; i++) {
@@ -96,24 +97,12 @@ describe('#delete', () => {
     })
 
     test('decrements the heap size', () => {
-      const bh = new BinaryHeap()
-
-      bh.push(2)
-      bh.push(4)
-      bh.push(6)
-
       bh.delete(1)
 
       expect(bh.size).toEqual(2)
     })
 
     test('reheapifies the remaining keys', () => {
-      const bh = new BinaryHeap()
-
-      bh.push(2)
-      bh.push(4)
-      bh.push(6)
-
       bh.delete(1)
 
       expect(bh.peek()).toEqual(4)
@@ -122,24 +111,12 @@ describe('#delete', () => {
 
   describe('when key is invalid', () => {
     test('leaves heap unchanged', () => {
-      const bh = new BinaryHeap()
-
-      bh.push(2)
-      bh.push(4)
-      bh.push(6)
-
       bh.delete(99)
 
       expect(bh.size).toEqual(3)
     })
 
     test('returns false', () => {
-      const bh = new BinaryHeap()
-
-      bh.push(2)
-      bh.push(4)
-      bh.push(6)
-
       expect(bh.delete(99)).toEqual(false)
     })
   })
