@@ -1,4 +1,4 @@
-const { HashTable } = require('../lib/hash_table')
+import HashTable from '../lib/hash_table'
 let ht, values
 
 test('Successfully intitializes', () => {

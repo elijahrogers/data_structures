@@ -1,4 +1,4 @@
-const BinaryTree = require('../../lib/trees/binary_tree')
+import BinaryTree from '../../lib/trees/binary_tree'
 let binaryTree, values
 
 test('Successfully intitializes', () => {

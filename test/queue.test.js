@@ -1,4 +1,4 @@
-const Queue = require('../lib/queue')
+import Queue from '../lib/queue'
 let queue
 
 test('Successfully intitializes', () => {

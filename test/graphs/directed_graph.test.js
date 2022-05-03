@@ -1,4 +1,4 @@
-const DirectedGraph = require('../../lib/graphs/directed_graph')
+import DirectedGraph from '../../lib/graphs/directed_graph'
 let graph
 
 describe('#new', () => {

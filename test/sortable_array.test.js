@@ -1,4 +1,4 @@
-const SortableArray = require('../lib/sortable_array')
+import SortableArray from '../lib/sortable_array'
 let multiTypes, duplicates, nulls
 
 test('Successfully intitializes', () => {

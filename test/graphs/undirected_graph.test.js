@@ -1,4 +1,4 @@
-const UndirectedGraph = require('../../lib/graphs/undirected_graph')
+import UndirectedGraph from '../../lib/graphs/undirected_graph'
 let graph
 
 describe('#new', () => {

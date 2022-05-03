@@ -1,4 +1,4 @@
-const { EdgeWeightedGraph, Edge } = require('../../lib/graphs/edge_weighted_graph')
+import { EdgeWeightedGraph, Edge } from '../../lib/graphs/edge_weighted_graph'
 let graph
 
 describe('#initialize', () => {

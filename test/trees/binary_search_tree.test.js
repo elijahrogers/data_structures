@@ -1,4 +1,4 @@
-const { BinarySearchTree, TreeNode } = require('../../lib/trees/binary_search_tree')
+import { BinarySearchTree, TreeNode } from '../../lib/trees/binary_search_tree'
 let bst, values
 
 test('Successfully intitializes', () => {

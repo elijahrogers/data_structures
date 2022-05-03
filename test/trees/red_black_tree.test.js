@@ -1,4 +1,4 @@
-const { RedBlackTree, TreeNode } = require('../../lib/trees/red_black_tree')
+import { RedBlackTree, TreeNode } from '../../lib/trees/red_black_tree'
 let rbt
 
 test('Successfully intitializes', () => {

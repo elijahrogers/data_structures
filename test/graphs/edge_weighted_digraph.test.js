@@ -1,4 +1,4 @@
-const { EdgeWeightedDigraph, DirectedEdge } = require('../../lib/graphs/edge_weighted_digraph')
+import { EdgeWeightedDigraph, DirectedEdge } from '../../lib/graphs/edge_weighted_digraph'
 let graph
 
 describe('#initialize', () => {

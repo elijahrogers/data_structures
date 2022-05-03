@@ -1,4 +1,4 @@
-const { DoublyLinkedList, ListNode } = require('../../lib/lists/doubly_linked_list')
+import { DoublyLinkedList, ListNode } from '../../lib/lists/doubly_linked_list'
 let list, values
 
 test('Successfully intitializes', () => {

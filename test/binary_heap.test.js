@@ -1,4 +1,4 @@
-const { BinaryHeap } = require('../lib/binary_heap')
+import BinaryHeap from '../lib/binary_heap'
 let bh
 
 test('Successfully intitializes', () => {

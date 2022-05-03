@@ -1,4 +1,4 @@
-const Stack = require('../lib/stack')
+import Stack from '../lib/stack'
 let stack
 
 test('Successfully intitializes', () => {

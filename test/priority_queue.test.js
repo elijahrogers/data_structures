@@ -1,4 +1,4 @@
-const PriorityQueue = require('../lib/priority_queue')
+import PriorityQueue from '../lib/priority_queue'
 let queue
 
 test('Successfully intitializes', () => {

@@ -1,4 +1,4 @@
-const { SinglyLinkedList, ListNode } = require('../../lib/lists/singly_linked_list')
+import { SinglyLinkedList, ListNode } from '../../lib/lists/singly_linked_list'
 let list, values
 
 test('Successfully intitializes', () => {

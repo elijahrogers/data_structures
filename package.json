@@ -1,5 +1,9 @@
 {
+  "type": "module",
+  "license": "(MIT OR Apache-2.0)",
   "dependencies": {
+    "@babel/preset-env": "^7.17.10",
+    "babel": "^6.23.0",
     "jest": "^26.5.3",
     "standard": "^14.3.4"
   },
@@ -8,6 +12,8 @@
     "test:debug": "node --inspect node_modules/.bin/jest --watch --runInBand"
   },
   "standard": {
-    "env": ["jest"]
+    "env": [
+      "jest"
+    ]
   }
 }
